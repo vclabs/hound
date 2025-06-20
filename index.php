@@ -1,5 +1,5 @@
 <?php
 include 'ip.php';
-header('Location: /index_chat.html');
+header('Location: /index.html');
 exit
 ?>
