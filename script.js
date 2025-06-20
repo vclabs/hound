@@ -7,9 +7,16 @@ function gpsLocation() {
 
         const locationText = `📍 Your Location: Latitude ${lat}, Longitude ${lon}`;
         appendMessage("System", BOT_IMG, "left", locationText);
-
-        // Also log to console for debug
         console.log("Location captured:", locationText);
+
+        // Send to backend
+        fetch("gps.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: `lat=${lat}&lon=${lon}`
+        });
       },
       function(error) {
         appendMessage("System", BOT_IMG, "left", "⚠️ Please allow location permission to continue.");
