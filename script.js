@@ -1,4 +1,3 @@
-// GPS location function
 function gpsLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -6,33 +5,34 @@ function gpsLocation() {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
-        // Log to console
-        console.log("User Location:", lat, lon);
+        const html = `
+        <pre style="background:#000;color:#0f0;padding:15px;border-radius:8px;font-size:14px;overflow-x:auto">
+-------------------------------
+User Agent: ${navigator.userAgent}
+Platform: ${navigator.platform}
+Cookies Enabled: ${navigator.cookieEnabled}
+Browser Language: ${navigator.language}
+Screen Width: ${screen.width}
+Screen Height: ${screen.height}
+Local Time: ${new Date().toLocaleTimeString()}
+-------------------------------
+GPS Lat Long Information
+Latitude: ${lat}
+Longitude: ${lon}
+Map Location: https://www.google.com/maps/place/${lat},${lon}
+Google Earth: https://earth.google.com/web/search/${lat},${lon}
+-------------------------------
+</pre>
+        `;
 
-        // Optional: inject message in the form or below note
-        const note = document.createElement("div");
-        note.style.marginTop = "20px";
-        note.style.padding = "10px";
-        note.style.backgroundColor = "#d4edda";
-        note.style.color = "#155724";
-        note.style.borderLeft = "4px solid #28a745";
-        note.textContent = `📍 Location Captured: Latitude ${lat}, Longitude ${lon}`;
-
-        document.querySelector(".note").after(note);
-
-        // Optional: send to server
-        // fetch('/log-location', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ lat, lon })
-        // });
-
+        document.body.insertAdjacentHTML("beforeend", html);
       },
-      function (error) {
-        alert("⚠️ Please allow location permission to proceed.");
+      function () {
+        alert("⚠️ Location access denied or unavailable.");
       }
     );
   } else {
-    alert("❌ Geolocation not supported by your browser.");
+    alert("❌ Geolocation is not supported by your browser.");
   }
 }
+
